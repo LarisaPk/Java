@@ -7,8 +7,11 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 import java.awt.BorderLayout;
+
+import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
@@ -16,6 +19,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
+import javax.swing.JRadioButton;
+import javax.swing.JToggleButton;
 
 public class StudyPlan extends JFrame {
 	//Private variables
@@ -51,7 +56,7 @@ public class StudyPlan extends JFrame {
 				populateTable();
 			}
 		});
-		btnRemoveCourse.setBounds(488, 303, 138, 21);
+		btnRemoveCourse.setBounds(488, 291, 138, 43);
 		getContentPane().add(btnRemoveCourse);
 		
 		// button for adding course to the study plan
@@ -62,26 +67,59 @@ public class StudyPlan extends JFrame {
 				populateTable();
 			}
 		});
-		btnAddCourse.setBounds(488, 32, 138, 21);
+		btnAddCourse.setBounds(488, 10, 138, 37);
 		getContentPane().add(btnAddCourse);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(36, 81, 590, 200);
+		scrollPane.setBounds(36, 63, 590, 188);
 		getContentPane().add(scrollPane);
+		
+		//button for marking selected course as completed/not completed
+		JButton btnMarkCompletednotCompleted = new JButton("Mark selected as completed / not completed");
+		btnMarkCompletednotCompleted.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				markStatus();
+				populateTable();
+					}
+				});
+		btnMarkCompletednotCompleted.setBounds(199, 291, 279, 43);
+		getContentPane().add(btnMarkCompletednotCompleted);
 		
 		// table for showing planned courses and manipulating them
 		tableModel = new DefaultTableModel(
 				new Object[1][COL_COUNT],  
-				new String[] {"ID", "Course Name","Status","Completion","Planned Semester"} // Set the column names
+				new String[] {"ID", "Course Name","","Status","Planned Semester"} // Set the column names
 			);
 		tableCourses = new JTable();
 		scrollPane.setViewportView(tableCourses);
 		tableCourses.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		tableCourses.setModel(tableModel);
 		
+		JLabel lblToUpdate = new JLabel("* To update Planned Semester click on the column and choose a new one from the dropdown menu ");
+		lblToUpdate.setBounds(46, 250, 598, 26);
+		getContentPane().add(lblToUpdate);
+		
+		//adds combobox(dpopdown) with semesters co choose from in the table cell semester planned. When new item picked from the list database and table updates
+		TableColumn semesterColumn = tableCourses.getColumnModel().getColumn(SEMESTER_COL);
+		
+		JComboBox comboBoxSemester = new JComboBox();
+		comboBoxSemester.addActionListener (new ActionListener () {
+		    public void actionPerformed(ActionEvent e) {
+		        
+		    }
+		});
+		comboBoxSemester.addItem("Autumn 2018");
+		comboBoxSemester.addItem("Spring 2019");
+		comboBoxSemester.addItem("Summer 2019");
+		comboBoxSemester.addItem("Autumn 2019");
+		comboBoxSemester.addItem("Spring 2020");
+		comboBoxSemester.addItem("Summer 2020");
+		semesterColumn.setCellEditor(new DefaultCellEditor(comboBoxSemester));
+		
 		//Makes ID and Status columns hidden
 		tableCourses.removeColumn(tableCourses.getColumnModel().getColumn(STATUS_COL));
 		tableCourses.removeColumn(tableCourses.getColumnModel().getColumn(ID_COL));
+		
 	}
 
 	public static void main(String[] args) {
@@ -94,7 +132,7 @@ public class StudyPlan extends JFrame {
 		
 		JTextField name = new JTextField(15);
 		
-		String semesterChoise[]= {"Autumn 2018","Spring 2019","Summer2019", "Autumn2019"}; 
+		String semesterChoise[]= {"Autumn 2018","Spring 2019","Summer 2019", "Autumn 2019","Spring 2020","Summer 2020"}; 
 		JComboBox  semester= new JComboBox (semesterChoise);
 
 		myPanel.add(new JLabel("Course name:"));
@@ -131,5 +169,10 @@ public class StudyPlan extends JFrame {
 			tableCourses.getModel().setValueAt(currentCourse.getStatusString(), row, STATUS_STRING_COL);
 			tableCourses.getModel().setValueAt(currentCourse.getSemester(), row, SEMESTER_COL);
 		}
+	}
+private void markStatus() {
+		
+		CourseQueries.updateStatus(!(Boolean.parseBoolean(tableCourses.getModel().getValueAt(tableCourses.getSelectedRow(), STATUS_COL).toString())) ,(int) tableCourses.getModel().getValueAt((tableCourses.getSelectedRow()), ID_COL));
+		
 	}
 }

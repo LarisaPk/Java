@@ -122,6 +122,21 @@ public class CourseQueries {
 		
 		return results;
 	} // end method getAllCourses
+	
+	/*
+	 * This method will execute the markCompletion query that sets updated value of the boolean "status" to the database. 
+	 */
+	protected void updateStatus(boolean status, int id) {
+		try {
+			
+			markCompletion.setBoolean(1, status);
+			markCompletion.setInt(2, id);
+			markCompletion.executeUpdate();
+			
+		} catch (SQLException sqlException) {
+			sqlException.printStackTrace();
+		}
+	}
 }
 
 	
