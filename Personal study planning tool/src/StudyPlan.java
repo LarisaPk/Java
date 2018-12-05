@@ -8,8 +8,6 @@ import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableModel;
 
-
-//import java.util.ArrayList; //ArrayList is used for storing objects
 import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -17,6 +15,7 @@ import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
 
 public class StudyPlan extends JFrame {
 	//Private variables
@@ -43,21 +42,11 @@ public class StudyPlan extends JFrame {
 		getContentPane().setLayout(null); 
 		setBounds(0,0,700,400); 
 		setLocationRelativeTo(null); 
-		
-		// table for showing planned courses and manipulating them
-		tableCourses = new JTable();
-		tableCourses.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		tableCourses.setBounds(52, 63, 574, 180);
 		tableModel = new DefaultTableModel(
 				new Object[1][COL_COUNT],  
 				new String[] {"ID", "Name","Status","Completion","Planned Semester"} // Set the column names
 			);
-		tableCourses.setModel(tableModel);
 		
-		//Makes ID and Status columns hidden
-		tableCourses.removeColumn(tableCourses.getColumnModel().getColumn(STATUS_COL));
-		tableCourses.removeColumn(tableCourses.getColumnModel().getColumn(ID_COL));
-		getContentPane().add(tableCourses);
 		
 		// button for removing course from the study plan
 		JButton btnRemoveCourse = new JButton("Remove selected");
@@ -65,7 +54,7 @@ public class StudyPlan extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnRemoveCourse.setBounds(512, 253, 114, 21);
+		btnRemoveCourse.setBounds(512, 302, 114, 21);
 		getContentPane().add(btnRemoveCourse);
 		
 		// button for adding course to the study plan
@@ -78,6 +67,20 @@ public class StudyPlan extends JFrame {
 		});
 		btnAddCourse.setBounds(502, 32, 124, 21);
 		getContentPane().add(btnAddCourse);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(36, 81, 590, 200);
+		getContentPane().add(scrollPane);
+		
+		// table for showing planned courses and manipulating them
+		tableCourses = new JTable();
+		scrollPane.setViewportView(tableCourses);
+		tableCourses.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		tableCourses.setModel(tableModel);
+		
+		//Makes ID and Status columns hidden
+		tableCourses.removeColumn(tableCourses.getColumnModel().getColumn(STATUS_COL));
+		tableCourses.removeColumn(tableCourses.getColumnModel().getColumn(ID_COL));
 	}
 
 	public static void main(String[] args) {
@@ -90,7 +93,7 @@ public class StudyPlan extends JFrame {
 		
 		JTextField name = new JTextField(15);
 		
-		String semesterChoise[]= {"Autumn","Spring","Summer"}; 
+		String semesterChoise[]= {"Autumn 2018","Spring 2019","Summer2019", "Autumn2019"}; 
 		JComboBox  semester= new JComboBox (semesterChoise);
 
 		myPanel.add(new JLabel("Course name:"));
