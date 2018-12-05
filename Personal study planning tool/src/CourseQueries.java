@@ -64,6 +64,23 @@ public class CourseQueries {
 		}	
 	}
 	/*
+	 * Method that removes a Course from the database
+	 */
+	public void removeCourse(Object object) {
+		try
+		{
+			// Setting the value for the question mark '?' in the prepared statement
+			removeCourse.setInt(1, (int) object);
+			
+			// result will contain the amount of updated rows.
+			int result = removeCourse.executeUpdate(); 
+		}
+		catch (SQLException sqlException)
+		{
+			sqlException.printStackTrace();
+		}	
+	}
+	/*
 	 * This method will execute the select query that gets all courses from the database. 
 	 * It returns an ArrayList containing Course objects initialized with Course data from each row in the cars table (database)
 	 */

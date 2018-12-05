@@ -42,19 +42,16 @@ public class StudyPlan extends JFrame {
 		getContentPane().setLayout(null); 
 		setBounds(0,0,700,400); 
 		setLocationRelativeTo(null); 
-		tableModel = new DefaultTableModel(
-				new Object[1][COL_COUNT],  
-				new String[] {"ID", "Name","Status","Completion","Planned Semester"} // Set the column names
-			);
-		
-		
+
 		// button for removing course from the study plan
 		JButton btnRemoveCourse = new JButton("Remove selected");
 		btnRemoveCourse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				CourseQueries.removeCourse(tableCourses.getModel().getValueAt((tableCourses.getSelectedRow()), ID_COL));
+				populateTable();
 			}
 		});
-		btnRemoveCourse.setBounds(512, 302, 114, 21);
+		btnRemoveCourse.setBounds(488, 303, 138, 21);
 		getContentPane().add(btnRemoveCourse);
 		
 		// button for adding course to the study plan
@@ -65,7 +62,7 @@ public class StudyPlan extends JFrame {
 				populateTable();
 			}
 		});
-		btnAddCourse.setBounds(502, 32, 124, 21);
+		btnAddCourse.setBounds(488, 32, 138, 21);
 		getContentPane().add(btnAddCourse);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -73,6 +70,10 @@ public class StudyPlan extends JFrame {
 		getContentPane().add(scrollPane);
 		
 		// table for showing planned courses and manipulating them
+		tableModel = new DefaultTableModel(
+				new Object[1][COL_COUNT],  
+				new String[] {"ID", "Course Name","Status","Completion","Planned Semester"} // Set the column names
+			);
 		tableCourses = new JTable();
 		scrollPane.setViewportView(tableCourses);
 		tableCourses.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
