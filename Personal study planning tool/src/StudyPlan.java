@@ -19,6 +19,8 @@ import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.print.PrinterException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
@@ -48,7 +50,7 @@ public class StudyPlan extends JFrame {
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		getContentPane().setLayout(null); 
-		setBounds(0,0,700,400); 
+		setBounds(0,0,708,507); 
 		setLocationRelativeTo(null); 
 
 		// button for removing course from the study plan
@@ -59,7 +61,7 @@ public class StudyPlan extends JFrame {
 				populateTable();
 			}
 		});
-		btnRemoveCourse.setBounds(488, 291, 138, 43);
+		btnRemoveCourse.setBounds(488, 372, 138, 43);
 		getContentPane().add(btnRemoveCourse);
 		
 		// button for adding course to the study plan
@@ -70,11 +72,11 @@ public class StudyPlan extends JFrame {
 				populateTable();
 			}
 		});
-		btnAddCourse.setBounds(488, 10, 138, 37);
+		btnAddCourse.setBounds(488, 21, 138, 43);
 		getContentPane().add(btnAddCourse);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(36, 63, 590, 188);
+		scrollPane.setBounds(36, 138, 590, 188);
 		getContentPane().add(scrollPane);
 		
 		//button for marking selected course as completed/not completed
@@ -85,7 +87,7 @@ public class StudyPlan extends JFrame {
 				populateTable();
 					}
 				});
-		btnMarkCompletednotCompleted.setBounds(199, 291, 279, 43);
+		btnMarkCompletednotCompleted.setBounds(199, 372, 279, 43);
 		getContentPane().add(btnMarkCompletednotCompleted);
 		
 		// table for showing planned courses and manipulating them
@@ -99,8 +101,24 @@ public class StudyPlan extends JFrame {
 		tableCourses.setModel(tableModel);
 		
 		JLabel lblToUpdate = new JLabel("* To update Planned Semester click on it, choose a new one from the dropdown menu and press OK");
-		lblToUpdate.setBounds(46, 250, 598, 26);
+		lblToUpdate.setBounds(36, 336, 598, 26);
 		getContentPane().add(lblToUpdate);
+		
+		//button for printing content of the table
+		JButton btnPrint = new JButton("Print");
+		btnPrint.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+			          MessageFormat headerFormat = new MessageFormat("Page {0}");
+			          MessageFormat footerFormat = new MessageFormat("- {0} -");
+			          tableCourses.print(JTable.PrintMode.FIT_WIDTH, headerFormat, footerFormat);
+			        } catch (PrinterException pe) {
+			          System.err.println("Error printing: " + pe.getMessage());
+			        }
+			}
+		});
+		btnPrint.setBounds(46, 372, 143, 43);
+		getContentPane().add(btnPrint);
 		
 		//if user clicks on table cell in the "Planned Semester" column new panel will show up for updating the semester
 		tableCourses.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -186,5 +204,4 @@ public class StudyPlan extends JFrame {
 	private void markStatus() {
 		CourseQueries.updateStatus(!(Boolean.parseBoolean(tableCourses.getModel().getValueAt(tableCourses.getSelectedRow(), STATUS_COL).toString())) ,(int) tableCourses.getModel().getValueAt((tableCourses.getSelectedRow()), ID_COL));
 	}
-	
 }
