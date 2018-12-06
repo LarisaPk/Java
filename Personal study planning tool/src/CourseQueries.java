@@ -153,24 +153,24 @@ public class CourseQueries {
 	 * This method will execute the selectByStatus query
 	 */
 	
-	protected ResultSet CourseQueries(boolean status) {
+	protected ResultSet selectByStatus(boolean status) {
 		ResultSet resultSet = null;
 		try {
 			selectByStatus.setBoolean(1, status);
-			selectByStatus.executeUpdate();
+			resultSet = selectByStatus.executeQuery();
 		} catch (SQLException sqlException) {
 			sqlException.printStackTrace();
 		}
 		return resultSet;
 	}
-	public ArrayList<Course> getStatus(boolean status){
+	public ArrayList<Course> getByStatus(boolean status){
 		
 		ArrayList<Course> results = null;
 		ResultSet resultSet = null;
 		
 		try
 		{
-			resultSet = CourseQueries(status); // Here we  execute the selectAllCourses query. resultSet contains the rows returned by the query
+			resultSet = selectByStatus(status); // Here we  execute the selectAllCourses query. resultSet contains the rows returned by the query
 			results = new ArrayList<Course>();
 		
 			while(resultSet.next()) // for each row returned by the select query...

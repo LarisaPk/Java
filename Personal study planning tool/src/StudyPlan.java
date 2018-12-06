@@ -36,7 +36,7 @@ public class StudyPlan extends JFrame {
 	//Private variables
 	private static CourseQueries CourseQueries; //instance of the CourseQueries class
 	private static ArrayList<Course> allCourses;  //array to store all courses
-	private JTextField txtSearchField;
+	//private JTextField txtSearchField;
 	static JTable tableCourses;
 	static DefaultTableModel tableModel;
 	
@@ -76,7 +76,7 @@ public class StudyPlan extends JFrame {
 				populateTable();
 			}
 		});
-		btnAddCourse.setBounds(488, 43, 138, 43);
+		btnAddCourse.setBounds(506, 43, 138, 43);
 		getContentPane().add(btnAddCourse);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -132,7 +132,12 @@ public class StudyPlan extends JFrame {
 					
 					if (e.getItem().equals("completed")) {
 						populateTableStatus(true);
-						System.out.print(e.getItem());
+					}
+					else if (e.getItem().equals("not completed")) {
+						populateTableStatus(false);
+					}
+					else {
+						populateTable();
 					}
                 }
 			}
@@ -140,6 +145,10 @@ public class StudyPlan extends JFrame {
 		comboBoxCompletion.setModel(new DefaultComboBoxModel(new String[] {"all", "completed", "not completed"}));
 		comboBoxCompletion.setBounds(317, 132, 115, 21);
 		getContentPane().add(comboBoxCompletion);
+		
+		JLabel lblSelect = new JLabel("Select");
+		lblSelect.setBounds(261, 136, 46, 13);
+		getContentPane().add(lblSelect);
 		
 		//if user clicks on table cell in the "Planned Semester" column new panel will show up for updating the semester
 		tableCourses.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -213,7 +222,7 @@ public class StudyPlan extends JFrame {
 		tableModel.setRowCount(allCourses.size());
 		
 		for (int row=0; row<allCourses.size(); row++){ //allCourses.size() returns the amount of items in the allCourses list
-			currentCourse = allCourses.get(row); // get an course from the ArrayList allAlbums
+			currentCourse = allCourses.get(row); // get an course from the ArrayList allCourses
 			
 			tableCourses.getModel().setValueAt(currentCourse.getID(), row, ID_COL);
 			tableCourses.getModel().setValueAt(currentCourse.getName(), row, NAME_COL);
@@ -224,11 +233,11 @@ public class StudyPlan extends JFrame {
 	}
 	public static void populateTableStatus(boolean status) {
 		Course currentCourse;
-		allCourses= CourseQueries.getStatus(status);
+		allCourses= CourseQueries.getByStatus(status);
 		tableModel.setRowCount(allCourses.size());
 		
 		for (int row=0; row<allCourses.size(); row++){ //allCourses.size() returns the amount of items in the allCourses list
-			currentCourse = allCourses.get(row); // get an course from the ArrayList allAlbums
+			currentCourse = allCourses.get(row); // get an course from the ArrayList allCourses
 			
 			tableCourses.getModel().setValueAt(currentCourse.getID(), row, ID_COL);
 			tableCourses.getModel().setValueAt(currentCourse.getName(), row, NAME_COL);
@@ -240,5 +249,4 @@ public class StudyPlan extends JFrame {
 	private void markStatus() {
 		CourseQueries.updateStatus(!(Boolean.parseBoolean(tableCourses.getModel().getValueAt(tableCourses.getSelectedRow(), STATUS_COL).toString())) ,(int) tableCourses.getModel().getValueAt((tableCourses.getSelectedRow()), ID_COL));
 	}
-
 }
