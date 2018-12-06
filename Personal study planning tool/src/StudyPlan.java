@@ -9,6 +9,8 @@ import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+
+
 import java.awt.BorderLayout;
 
 import javax.swing.ComboBoxEditor;
@@ -20,12 +22,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.print.PrinterException;
+import java.sql.ResultSet;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JRadioButton;
 import javax.swing.JToggleButton;
+import javax.swing.JCheckBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class StudyPlan extends JFrame {
 	//Private variables
@@ -33,7 +38,6 @@ public class StudyPlan extends JFrame {
 	private static ArrayList<Course> allCourses;  //array to store all courses
 	private JTextField txtSearchField;
 	static JTable tableCourses;
-	static JComboBox comboBoxSemester;
 	static DefaultTableModel tableModel;
 	
 	//Constants for table columns
@@ -61,7 +65,7 @@ public class StudyPlan extends JFrame {
 				populateTable();
 			}
 		});
-		btnRemoveCourse.setBounds(488, 372, 138, 43);
+		btnRemoveCourse.setBounds(488, 397, 138, 43);
 		getContentPane().add(btnRemoveCourse);
 		
 		// button for adding course to the study plan
@@ -72,11 +76,11 @@ public class StudyPlan extends JFrame {
 				populateTable();
 			}
 		});
-		btnAddCourse.setBounds(488, 21, 138, 43);
+		btnAddCourse.setBounds(488, 43, 138, 43);
 		getContentPane().add(btnAddCourse);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(36, 138, 590, 188);
+		scrollPane.setBounds(28, 163, 616, 188);
 		getContentPane().add(scrollPane);
 		
 		//button for marking selected course as completed/not completed
@@ -87,7 +91,7 @@ public class StudyPlan extends JFrame {
 				populateTable();
 					}
 				});
-		btnMarkCompletednotCompleted.setBounds(199, 372, 279, 43);
+		btnMarkCompletednotCompleted.setBounds(199, 397, 279, 43);
 		getContentPane().add(btnMarkCompletednotCompleted);
 		
 		// table for showing planned courses and manipulating them
@@ -101,7 +105,7 @@ public class StudyPlan extends JFrame {
 		tableCourses.setModel(tableModel);
 		
 		JLabel lblToUpdate = new JLabel("* To update Planned Semester click on it, choose a new one from the dropdown menu and press OK");
-		lblToUpdate.setBounds(36, 336, 598, 26);
+		lblToUpdate.setBounds(28, 361, 598, 26);
 		getContentPane().add(lblToUpdate);
 		
 		//button for printing content of the table
@@ -117,8 +121,25 @@ public class StudyPlan extends JFrame {
 			        }
 			}
 		});
-		btnPrint.setBounds(46, 372, 143, 43);
+		btnPrint.setBounds(46, 397, 143, 43);
 		getContentPane().add(btnPrint);
+		
+		JComboBox comboBoxCompletion = new JComboBox();
+		comboBoxCompletion.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+			
+				if(e.getStateChange() == ItemEvent.SELECTED) {
+					
+					if (e.getItem().equals("completed")) {
+						populateTableStatus(true);
+						System.out.print(e.getItem());
+					}
+                }
+			}
+		});
+		comboBoxCompletion.setModel(new DefaultComboBoxModel(new String[] {"all", "completed", "not completed"}));
+		comboBoxCompletion.setBounds(317, 132, 115, 21);
+		getContentPane().add(comboBoxCompletion);
 		
 		//if user clicks on table cell in the "Planned Semester" column new panel will show up for updating the semester
 		tableCourses.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -201,7 +222,23 @@ public class StudyPlan extends JFrame {
 			tableCourses.getModel().setValueAt(currentCourse.getSemester(), row, SEMESTER_COL);
 		}
 	}
+	public static void populateTableStatus(boolean status) {
+		Course currentCourse;
+		allCourses= CourseQueries.getStatus(status);
+		tableModel.setRowCount(allCourses.size());
+		
+		for (int row=0; row<allCourses.size(); row++){ //allCourses.size() returns the amount of items in the allCourses list
+			currentCourse = allCourses.get(row); // get an course from the ArrayList allAlbums
+			
+			tableCourses.getModel().setValueAt(currentCourse.getID(), row, ID_COL);
+			tableCourses.getModel().setValueAt(currentCourse.getName(), row, NAME_COL);
+			tableCourses.getModel().setValueAt(currentCourse.getStatus(), row, STATUS_COL);
+			tableCourses.getModel().setValueAt(currentCourse.getStatusString(), row, STATUS_STRING_COL);
+			tableCourses.getModel().setValueAt(currentCourse.getSemester(), row, SEMESTER_COL);
+		}
+	}
 	private void markStatus() {
 		CourseQueries.updateStatus(!(Boolean.parseBoolean(tableCourses.getModel().getValueAt(tableCourses.getSelectedRow(), STATUS_COL).toString())) ,(int) tableCourses.getModel().getValueAt((tableCourses.getSelectedRow()), ID_COL));
 	}
+
 }
