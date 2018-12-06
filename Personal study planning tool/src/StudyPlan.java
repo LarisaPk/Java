@@ -66,7 +66,7 @@ public class StudyPlan extends JFrame {
 				populateTable();
 			}
 		});
-		btnRemoveCourse.setBounds(495, 397, 149, 43);
+		btnRemoveCourse.setBounds(549, 397, 269, 43);
 		getContentPane().add(btnRemoveCourse);
 		
 		// button for adding course to the study plan
@@ -77,7 +77,7 @@ public class StudyPlan extends JFrame {
 				populateTable();
 			}
 		});
-		btnAddCourse.setBounds(680, 37, 138, 43);
+		btnAddCourse.setBounds(10, 25, 265, 43);
 		getContentPane().add(btnAddCourse);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -92,7 +92,7 @@ public class StudyPlan extends JFrame {
 				populateTable();
 					}
 				});
-		btnMarkCompletednotCompleted.setBounds(206, 397, 279, 43);
+		btnMarkCompletednotCompleted.setBounds(267, 397, 272, 43);
 		getContentPane().add(btnMarkCompletednotCompleted);
 		
 		// table for showing planned courses and manipulating them
@@ -106,7 +106,7 @@ public class StudyPlan extends JFrame {
 		tableCourses.setModel(tableModel);
 		
 		JLabel lblToUpdate = new JLabel("* To change Planned Semester click on it, choose a new one from the dropdown menu and press OK");
-		lblToUpdate.setBounds(28, 361, 616, 26);
+		lblToUpdate.setBounds(10, 361, 616, 26);
 		getContentPane().add(lblToUpdate);
 		
 		//button for printing content of the table
@@ -122,7 +122,7 @@ public class StudyPlan extends JFrame {
 			        }
 			}
 		});
-		btnPrint.setBounds(28, 397, 167, 43);
+		btnPrint.setBounds(10, 397, 247, 43);
 		getContentPane().add(btnPrint);
 		
 		//combobox to choose completion and show in the teble
@@ -166,9 +166,13 @@ public class StudyPlan extends JFrame {
 		getContentPane().add(textField);
 		textField.setColumns(10);
 		
-		JButton btnSearchByName = new JButton("Search by name");
+		JButton btnSearchByName = new JButton("Filter by name");
 		btnSearchByName.setBounds(147, 107, 128, 26);
 		getContentPane().add(btnSearchByName);
+		
+		JLabel lblOnluOneFilter = new JLabel("*Only one filter can be used at the same time");
+		lblOnluOneFilter.setBounds(10, 78, 529, 18);
+		getContentPane().add(lblOnluOneFilter);
 		
 		//if user clicks on table cell in the "Planned Semester" column new panel will show up for updating the semester
 		tableCourses.addMouseListener(new java.awt.event.MouseAdapter() {
