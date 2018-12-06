@@ -145,7 +145,7 @@ public class StudyPlan extends JFrame {
 			}
 		});
 		comboBoxCompletion.setModel(new DefaultComboBoxModel(new String[] {"All", "completed", "not completed"}));
-		comboBoxCompletion.setBounds(404, 107, 138, 26);
+		comboBoxCompletion.setBounds(401, 107, 138, 26);
 		getContentPane().add(comboBoxCompletion);
 		
 		JLabel lblSelect = new JLabel("Filter by status");
@@ -154,11 +154,11 @@ public class StudyPlan extends JFrame {
 		//combobox to choose planned semester and show in the teble
 		JComboBox comboBoxSemesterPlanned = new JComboBox();
 		comboBoxSemesterPlanned.setModel(new DefaultComboBoxModel(new String[] {"All", "Autumn 2018", "Spring 2019", "Summer 2019", "Autumn 2019", "Spring 2020", "Summer 2020"}));
-		comboBoxSemesterPlanned.setBounds(680, 107, 138, 26);
+		comboBoxSemesterPlanned.setBounds(667, 107, 138, 26);
 		getContentPane().add(comboBoxSemesterPlanned);
 		
 		JLabel lblShow = new JLabel("Filter by semester");
-		lblShow.setBounds(571, 107, 109, 26);
+		lblShow.setBounds(559, 107, 109, 26);
 		getContentPane().add(lblShow);
 		
 		textField = new JTextField();
@@ -170,7 +170,7 @@ public class StudyPlan extends JFrame {
 		btnSearchByName.setBounds(147, 107, 128, 26);
 		getContentPane().add(btnSearchByName);
 		
-		JLabel lblOnluOneFilter = new JLabel("*Only one filter can be used at the same time");
+		JLabel lblOnluOneFilter = new JLabel("* Only one filter can be used at the same time");
 		lblOnluOneFilter.setBounds(10, 78, 529, 18);
 		getContentPane().add(lblOnluOneFilter);
 		

@@ -32,7 +32,7 @@ public class CourseQueries {
 			markCompletion = connection.prepareStatement("UPDATE courses SET Status = ? WHERE CourseID = ?");// Prepare the update query that changes status of course completion in the database
 			updateSemester = connection.prepareStatement("UPDATE courses SET Semester = ? WHERE CourseID = ?");// Prepare the update query that changes planned semester in the database
 			removeCourse = connection.prepareStatement("DELETE FROM courses WHERE CourseID=?"); // Prepare the delete query that removes course from the database
-			selectByName = connection.prepareStatement("SELECT * FROM courses WHERE Name=?"); // Prepare the select query that gets course by name from the database
+			selectByName = connection.prepareStatement("SELECT * FROM courses WHERE Name LIKE ?"); // Prepare the select query that gets course by name from the database
 			selectBySemester = connection.prepareStatement("SELECT * FROM courses WHERE Semester=?"); // Prepare the select query that gets all cars from the database
 			selectByStatus = connection.prepareStatement("SELECT * FROM courses WHERE Status=?"); // Prepare the select query that gets all cars from the database
 		}
