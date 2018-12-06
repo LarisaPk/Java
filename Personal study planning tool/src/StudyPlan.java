@@ -65,7 +65,7 @@ public class StudyPlan extends JFrame {
 				populateTable();
 			}
 		});
-		btnRemoveCourse.setBounds(488, 397, 138, 43);
+		btnRemoveCourse.setBounds(495, 397, 149, 43);
 		getContentPane().add(btnRemoveCourse);
 		
 		// button for adding course to the study plan
@@ -76,11 +76,11 @@ public class StudyPlan extends JFrame {
 				populateTable();
 			}
 		});
-		btnAddCourse.setBounds(506, 43, 138, 43);
+		btnAddCourse.setBounds(506, 37, 138, 43);
 		getContentPane().add(btnAddCourse);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(28, 163, 616, 188);
+		scrollPane.setBounds(28, 143, 616, 208);
 		getContentPane().add(scrollPane);
 		
 		//button for marking selected course as completed/not completed
@@ -91,7 +91,7 @@ public class StudyPlan extends JFrame {
 				populateTable();
 					}
 				});
-		btnMarkCompletednotCompleted.setBounds(199, 397, 279, 43);
+		btnMarkCompletednotCompleted.setBounds(206, 397, 279, 43);
 		getContentPane().add(btnMarkCompletednotCompleted);
 		
 		// table for showing planned courses and manipulating them
@@ -104,8 +104,8 @@ public class StudyPlan extends JFrame {
 		tableCourses.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		tableCourses.setModel(tableModel);
 		
-		JLabel lblToUpdate = new JLabel("* To update Planned Semester click on it, choose a new one from the dropdown menu and press OK");
-		lblToUpdate.setBounds(28, 361, 598, 26);
+		JLabel lblToUpdate = new JLabel("* To change Planned Semester click on it, choose a new one from the dropdown menu and press OK");
+		lblToUpdate.setBounds(28, 361, 616, 26);
 		getContentPane().add(lblToUpdate);
 		
 		//button for printing content of the table
@@ -121,7 +121,7 @@ public class StudyPlan extends JFrame {
 			        }
 			}
 		});
-		btnPrint.setBounds(46, 397, 143, 43);
+		btnPrint.setBounds(28, 397, 167, 43);
 		getContentPane().add(btnPrint);
 		
 		JComboBox comboBoxCompletion = new JComboBox();
@@ -142,13 +142,22 @@ public class StudyPlan extends JFrame {
                 }
 			}
 		});
-		comboBoxCompletion.setModel(new DefaultComboBoxModel(new String[] {"all", "completed", "not completed"}));
-		comboBoxCompletion.setBounds(317, 132, 115, 21);
+		comboBoxCompletion.setModel(new DefaultComboBoxModel(new String[] {"All", "completed", "not completed"}));
+		comboBoxCompletion.setBounds(302, 107, 131, 26);
 		getContentPane().add(comboBoxCompletion);
 		
-		JLabel lblSelect = new JLabel("Select");
-		lblSelect.setBounds(261, 136, 46, 13);
+		JLabel lblSelect = new JLabel("Show");
+		lblSelect.setBounds(249, 111, 53, 19);
 		getContentPane().add(lblSelect);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"All", "Autumn 2018", "Spring 2019", "Summer 2019", "Autumn 2019", "Spring 2020", "Summer 2020"}));
+		comboBox.setBounds(506, 107, 138, 26);
+		getContentPane().add(comboBox);
+		
+		JLabel lblShow = new JLabel("Show");
+		lblShow.setBounds(457, 107, 46, 26);
+		getContentPane().add(lblShow);
 		
 		//if user clicks on table cell in the "Planned Semester" column new panel will show up for updating the semester
 		tableCourses.addMouseListener(new java.awt.event.MouseAdapter() {
