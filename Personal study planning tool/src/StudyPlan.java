@@ -47,6 +47,7 @@ public class StudyPlan extends JFrame {
 	private static final int STATUS_COL = 2;
 	private static final int SEMESTER_COL = 4;
 	private static final int COL_COUNT = 5;
+	private JTextField textField;
 	
 	public StudyPlan () {
 		super("Personal study planner");
@@ -54,7 +55,7 @@ public class StudyPlan extends JFrame {
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		getContentPane().setLayout(null); 
-		setBounds(0,0,708,507); 
+		setBounds(0,0,842,507); 
 		setLocationRelativeTo(null); 
 
 		// button for removing course from the study plan
@@ -76,11 +77,11 @@ public class StudyPlan extends JFrame {
 				populateTable();
 			}
 		});
-		btnAddCourse.setBounds(506, 37, 138, 43);
+		btnAddCourse.setBounds(680, 37, 138, 43);
 		getContentPane().add(btnAddCourse);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(28, 143, 616, 208);
+		scrollPane.setBounds(10, 143, 808, 208);
 		getContentPane().add(scrollPane);
 		
 		//button for marking selected course as completed/not completed
@@ -124,6 +125,7 @@ public class StudyPlan extends JFrame {
 		btnPrint.setBounds(28, 397, 167, 43);
 		getContentPane().add(btnPrint);
 		
+		//combobox to choose completion and show in the teble
 		JComboBox comboBoxCompletion = new JComboBox();
 		comboBoxCompletion.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
@@ -143,21 +145,30 @@ public class StudyPlan extends JFrame {
 			}
 		});
 		comboBoxCompletion.setModel(new DefaultComboBoxModel(new String[] {"All", "completed", "not completed"}));
-		comboBoxCompletion.setBounds(302, 107, 131, 26);
+		comboBoxCompletion.setBounds(404, 107, 138, 26);
 		getContentPane().add(comboBoxCompletion);
 		
-		JLabel lblSelect = new JLabel("Show");
-		lblSelect.setBounds(249, 111, 53, 19);
+		JLabel lblSelect = new JLabel("Filter by status");
+		lblSelect.setBounds(304, 107, 90, 26);
 		getContentPane().add(lblSelect);
+		//combobox to choose planned semester and show in the teble
+		JComboBox comboBoxSemesterPlanned = new JComboBox();
+		comboBoxSemesterPlanned.setModel(new DefaultComboBoxModel(new String[] {"All", "Autumn 2018", "Spring 2019", "Summer 2019", "Autumn 2019", "Spring 2020", "Summer 2020"}));
+		comboBoxSemesterPlanned.setBounds(680, 107, 138, 26);
+		getContentPane().add(comboBoxSemesterPlanned);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"All", "Autumn 2018", "Spring 2019", "Summer 2019", "Autumn 2019", "Spring 2020", "Summer 2020"}));
-		comboBox.setBounds(506, 107, 138, 26);
-		getContentPane().add(comboBox);
-		
-		JLabel lblShow = new JLabel("Show");
-		lblShow.setBounds(457, 107, 46, 26);
+		JLabel lblShow = new JLabel("Filter by semester");
+		lblShow.setBounds(571, 107, 109, 26);
 		getContentPane().add(lblShow);
+		
+		textField = new JTextField();
+		textField.setBounds(10, 107, 138, 26);
+		getContentPane().add(textField);
+		textField.setColumns(10);
+		
+		JButton btnSearchByName = new JButton("Search by name");
+		btnSearchByName.setBounds(147, 107, 128, 26);
+		getContentPane().add(btnSearchByName);
 		
 		//if user clicks on table cell in the "Planned Semester" column new panel will show up for updating the semester
 		tableCourses.addMouseListener(new java.awt.event.MouseAdapter() {
