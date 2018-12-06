@@ -154,11 +154,11 @@ public class StudyPlan extends JFrame {
 		//combobox to choose planned semester and show in the teble
 		JComboBox comboBoxSemesterPlanned = new JComboBox();
 		comboBoxSemesterPlanned.setModel(new DefaultComboBoxModel(new String[] {"All", "Autumn 2018", "Spring 2019", "Summer 2019", "Autumn 2019", "Spring 2020", "Summer 2020"}));
-		comboBoxSemesterPlanned.setBounds(667, 107, 138, 26);
+		comboBoxSemesterPlanned.setBounds(661, 107, 138, 26);
 		getContentPane().add(comboBoxSemesterPlanned);
 		
 		JLabel lblShow = new JLabel("Filter by semester");
-		lblShow.setBounds(559, 107, 109, 26);
+		lblShow.setBounds(552, 107, 99, 26);
 		getContentPane().add(lblShow);
 		
 		textField = new JTextField();
