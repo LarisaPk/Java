@@ -4,9 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-
-
 //This Class manages database operations associated to the Course Class
 
 public class CourseQueries {
@@ -21,9 +18,9 @@ public class CourseQueries {
 	private PreparedStatement markCompletion = null;
 	private PreparedStatement updateSemester = null;
 	private PreparedStatement removeCourse = null;
-	private PreparedStatement printByName = null;
-	private PreparedStatement printBySemester = null;
-	private PreparedStatement printByStatus = null;
+	private PreparedStatement selectByName = null;
+	private PreparedStatement selectBySemester = null;
+	private PreparedStatement selectByStatus = null;
 	
 	public CourseQueries()// method contains SQL queries for the  prepared satatements defined above
 	{
@@ -35,9 +32,9 @@ public class CourseQueries {
 			markCompletion = connection.prepareStatement("UPDATE courses SET Status = ? WHERE CourseID = ?");// Prepare the update query that changes status of course completion in the database
 			updateSemester = connection.prepareStatement("UPDATE courses SET Semester = ? WHERE CourseID = ?");// Prepare the update query that changes planned semester in the database
 			removeCourse = connection.prepareStatement("DELETE FROM courses WHERE CourseID=?"); // Prepare the delete query that removes course from the database
-			printByName = connection.prepareStatement("SELECT * FROM courses WHERE Name=?"); // Prepare the select query that gets course by name from the database
-			printBySemester = connection.prepareStatement("SELECT * FROM courses WHERE Semester=?"); // Prepare the select query that gets all cars from the database
-			printByStatus = connection.prepareStatement("SELECT * FROM courses WHERE Status=?"); // Prepare the select query that gets all cars from the database
+			selectByName = connection.prepareStatement("SELECT * FROM courses WHERE Name=?"); // Prepare the select query that gets course by name from the database
+			selectBySemester = connection.prepareStatement("SELECT * FROM courses WHERE Semester=?"); // Prepare the select query that gets all cars from the database
+			selectByStatus = connection.prepareStatement("SELECT * FROM courses WHERE Status=?"); // Prepare the select query that gets all cars from the database
 		}
 		catch (SQLException sqlException)
 		{
@@ -132,6 +129,20 @@ public class CourseQueries {
 			markCompletion.setBoolean(1, status);
 			markCompletion.setInt(2, id);
 			markCompletion.executeUpdate();
+			
+		} catch (SQLException sqlException) {
+			sqlException.printStackTrace();
+		}
+	}
+	/*
+	 * This method will execute the updateSemester query that sets updates value of the planned semester to the database. 
+	 */
+	protected void updateSemester(String semester, int id) {
+		try {
+			
+			updateSemester.setString(1, semester);
+			updateSemester.setInt(2, id);
+			updateSemester.executeUpdate();
 			
 		} catch (SQLException sqlException) {
 			sqlException.printStackTrace();

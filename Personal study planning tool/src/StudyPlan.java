@@ -11,11 +11,14 @@ import javax.swing.table.TableColumn;
 
 import java.awt.BorderLayout;
 
+import javax.swing.ComboBoxEditor;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
@@ -28,7 +31,7 @@ public class StudyPlan extends JFrame {
 	private static ArrayList<Course> allCourses;  //array to store all courses
 	private JTextField txtSearchField;
 	static JTable tableCourses;
-	
+	static JComboBox comboBoxSemester;
 	static DefaultTableModel tableModel;
 	
 	//Constants for table columns
@@ -95,31 +98,26 @@ public class StudyPlan extends JFrame {
 		tableCourses.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		tableCourses.setModel(tableModel);
 		
-		JLabel lblToUpdate = new JLabel("* To update Planned Semester click on the column and choose a new one from the dropdown menu ");
+		JLabel lblToUpdate = new JLabel("* To update Planned Semester click on it, choose a new one from the dropdown menu and press OK");
 		lblToUpdate.setBounds(46, 250, 598, 26);
 		getContentPane().add(lblToUpdate);
 		
-		//adds combobox(dpopdown) with semesters co choose from in the table cell semester planned. When new item picked from the list database and table updates
-		TableColumn semesterColumn = tableCourses.getColumnModel().getColumn(SEMESTER_COL);
-		
-		JComboBox comboBoxSemester = new JComboBox();
-		comboBoxSemester.addActionListener (new ActionListener () {
-		    public void actionPerformed(ActionEvent e) {
-		        
+		//if user clicks on table cell in the "Planned Semester" column new panel will show up for updating the semester
+		tableCourses.addMouseListener(new java.awt.event.MouseAdapter() {
+		    @Override
+		    public void mouseClicked(java.awt.event.MouseEvent evt) {
+		    	int row = tableCourses.rowAtPoint(evt.getPoint());
+		        int col = tableCourses.columnAtPoint(evt.getPoint());
+		        if (row >= 0 && col == 2) {
+		        	getNewSemester();
+		        	populateTable();
+		        }
 		    }
 		});
-		comboBoxSemester.addItem("Autumn 2018");
-		comboBoxSemester.addItem("Spring 2019");
-		comboBoxSemester.addItem("Summer 2019");
-		comboBoxSemester.addItem("Autumn 2019");
-		comboBoxSemester.addItem("Spring 2020");
-		comboBoxSemester.addItem("Summer 2020");
-		semesterColumn.setCellEditor(new DefaultCellEditor(comboBoxSemester));
 		
 		//Makes ID and Status columns hidden
 		tableCourses.removeColumn(tableCourses.getColumnModel().getColumn(STATUS_COL));
 		tableCourses.removeColumn(tableCourses.getColumnModel().getColumn(ID_COL));
-		
 	}
 
 	public static void main(String[] args) {
@@ -148,6 +146,22 @@ public class StudyPlan extends JFrame {
 	    	CourseQueries.addCourse(name.getText(), (String)semester.getSelectedItem());
 	    }
 	}
+	private void getNewSemester(){
+		JPanel myPanel = new JPanel();
+		
+		String semesterChoise[]= {"Autumn 2018","Spring 2019","Summer 2019", "Autumn 2019","Spring 2020","Summer 2020"}; 
+		JComboBox  semester= new JComboBox (semesterChoise);
+		
+	    myPanel.add(new JLabel("Choose new Planned Semester:"));
+	    myPanel.add(semester);
+	    
+	    int result = JOptionPane.showConfirmDialog(null, myPanel, "Update semester", JOptionPane.OK_CANCEL_OPTION);
+	    
+	    if (result == JOptionPane.OK_OPTION) {	    	
+
+	    CourseQueries.updateSemester((String)semester.getSelectedItem(), (int)tableCourses.getModel().getValueAt((tableCourses.getSelectedRow()), ID_COL));
+	    }
+	}
 	/************
 	 * searchAlbums
 	 * Queries the database for albums and lists them in a table
@@ -157,7 +171,6 @@ public class StudyPlan extends JFrame {
 	public static void populateTable() {
 		Course currentCourse;
 		allCourses= CourseQueries.getAllCourses();
-		 
 		tableModel.setRowCount(allCourses.size());
 		
 		for (int row=0; row<allCourses.size(); row++){ //allCourses.size() returns the amount of items in the allCourses list
@@ -170,9 +183,8 @@ public class StudyPlan extends JFrame {
 			tableCourses.getModel().setValueAt(currentCourse.getSemester(), row, SEMESTER_COL);
 		}
 	}
-private void markStatus() {
-		
+	private void markStatus() {
 		CourseQueries.updateStatus(!(Boolean.parseBoolean(tableCourses.getModel().getValueAt(tableCourses.getSelectedRow(), STATUS_COL).toString())) ,(int) tableCourses.getModel().getValueAt((tableCourses.getSelectedRow()), ID_COL));
-		
 	}
+	
 }
