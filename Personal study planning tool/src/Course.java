@@ -4,7 +4,7 @@ public class Course {
 	private boolean status;
 	private String semester;
 
-	//Constructor for Course
+	//Constructor for the Course
 	public Course(int id, String name, boolean status, String semester) {
 		this.id = id;
 		this.name = name;
@@ -30,7 +30,7 @@ public class Course {
 	/**********
 	 * getSemester
 	 * Parameters: -
-	 * Returns: planned semester name as string
+	 * Returns: planned semester's name as a string
 	 */
 	public String getSemester() {
 		return this.semester;

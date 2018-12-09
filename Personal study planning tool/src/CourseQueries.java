@@ -1,17 +1,18 @@
+//This Class manages database operations associated to the Course Class
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-//This Class manages database operations associated to the Course Class
 
 public class CourseQueries {
 	// DB connection details
 	private static final String URL = "jdbc:mysql://localhost:3306/studyplan"; // here you need to give your URL of the database (make changes)
 	private static final String USERNAME = "javaoo"; // here you need to give your username of the database (make changes)
 	private static final String PASSWORD = "qwerty"; // here you need to give your password of the database (make changes)
-
+	
+	//Private variables to store connection and prepared statements
 	private Connection connection = null;
 	private PreparedStatement addCourse = null; 
 	private PreparedStatement selectAllCourses = null;
@@ -22,19 +23,19 @@ public class CourseQueries {
 	private PreparedStatement selectBySemester = null;
 	private PreparedStatement selectByStatus = null;
 	
-	public CourseQueries()// method contains SQL queries for the  prepared satatements defined above
+	public CourseQueries()// method contains SQL queries for the  prepared statements defined above
 	{
 		try
 		{
 			connection = DriverManager.getConnection(URL, USERNAME, PASSWORD); // Starts a connection to the database
-			selectAllCourses = connection.prepareStatement("SELECT * FROM courses"); // Prepare the select query that gets all courses from the database
-			addCourse = connection.prepareStatement("INSERT INTO courses (Name, Semester) VALUES (?,?)"); // Prepare the insert query that adds new course to the database
-			markCompletion = connection.prepareStatement("UPDATE courses SET Status = ? WHERE CourseID = ?");// Prepare the update query that changes status of course completion in the database
-			updateSemester = connection.prepareStatement("UPDATE courses SET Semester = ? WHERE CourseID = ?");// Prepare the update query that changes planned semester in the database
-			removeCourse = connection.prepareStatement("DELETE FROM courses WHERE CourseID=?"); // Prepare the delete query that removes course from the database
-			selectByName = connection.prepareStatement("SELECT * FROM courses WHERE Name LIKE ?"); // Prepare the select query that gets course by name from the database
-			selectBySemester = connection.prepareStatement("SELECT * FROM courses WHERE Semester=?"); // Prepare the select query that gets all cars from the database
-			selectByStatus = connection.prepareStatement("SELECT * FROM courses WHERE Status=?"); // Prepare the select query that gets all cars from the database
+			selectAllCourses = connection.prepareStatement("SELECT * FROM courses"); // Prepares the select query that selects all the courses from the database
+			addCourse = connection.prepareStatement("INSERT INTO courses (Name, Semester) VALUES (?,?)"); // Prepares the insert query that adds new course into the database
+			markCompletion = connection.prepareStatement("UPDATE courses SET Status = ? WHERE CourseID = ?");// Prepares the update query that changes status of the course completion in the database
+			updateSemester = connection.prepareStatement("UPDATE courses SET Semester = ? WHERE CourseID = ?");// Prepares the update query that updates planned semester in the database
+			removeCourse = connection.prepareStatement("DELETE FROM courses WHERE CourseID=?"); // Prepares the delete query that removes course from the database
+			selectByName = connection.prepareStatement("SELECT * FROM courses WHERE Name LIKE ?"); // Prepares the select query that gets course by name from the database
+			selectBySemester = connection.prepareStatement("SELECT * FROM courses WHERE Semester=?"); // Prepares the select query that gets course by semester from the database
+			selectByStatus = connection.prepareStatement("SELECT * FROM courses WHERE Status=?"); // Prepares the select query that gets course by status from the database
 		}
 		catch (SQLException sqlException)
 		{
@@ -51,7 +52,6 @@ public class CourseQueries {
 			// Setting the values for the question marks '?' in the prepared statement
 			addCourse.setString(1, name);
 			addCourse.setString(2, semester);
-						
 			// result will contain the amount of updated rows.
 			int result = addCourse.executeUpdate(); 
 		}
@@ -61,14 +61,13 @@ public class CourseQueries {
 		}	
 	}
 	/*
-	 * Method that removes a Course from the database
+	 * Method that deletes a Course from the database
 	 */
-	public void removeCourse(Object object) {
+	public void removeCourse(int id) {
 		try
 		{
 			// Setting the value for the question mark '?' in the prepared statement
-			removeCourse.setInt(1, (int) object);
-			
+			removeCourse.setInt(1, id);
 			// result will contain the amount of updated rows.
 			int result = removeCourse.executeUpdate(); 
 		}
@@ -79,7 +78,7 @@ public class CourseQueries {
 	}
 	/*
 	 * This method will execute the select query that gets all courses from the database. 
-	 * It returns an ArrayList containing Course objects initialized with Course data from each row in the cars table (database)
+	 * It returns an ArrayList containing Course objects initialized with Course data from each row in the courses table (database)
 	 */
 	public ArrayList<Course> getAllCourses(){
 	
@@ -88,7 +87,7 @@ public class CourseQueries {
 		
 		try
 		{
-			resultSet = selectAllCourses.executeQuery(); // Here we  execute the selectAllCourses query. resultSet contains the rows returned by the query
+			resultSet = selectAllCourses.executeQuery(); //Execute the selectAllCourses query. resultSet contains the rows returned by the query
 			results = new ArrayList<Course>();
 		
 			while(resultSet.next()) // for each row returned by the select query...
@@ -119,40 +118,36 @@ public class CourseQueries {
 		
 		return results;
 	} // end method getAllCourses
-
 	
 	/*
-	 * This method will execute the markCompletion query that sets updated value of the boolean "status" to the database. 
+	 * This method will execute the markCompletion query that updates value of the boolean "status" in the database. 
 	 */
 	protected void updateStatus(boolean status, int id) {
 		try {
-			
 			markCompletion.setBoolean(1, status);
 			markCompletion.setInt(2, id);
 			markCompletion.executeUpdate();
-			
-		} catch (SQLException sqlException) {
+		} 
+		catch (SQLException sqlException) {
 			sqlException.printStackTrace();
 		}
 	}
 	/*
-	 * This method will execute the updateSemester query that sets updates value of the planned semester to the database. 
+	 * This method will execute the updateSemester query that updates value of the planned semester in the database. 
 	 */
 	protected void updateSemester(String semester, int id) {
 		try {
-			
 			updateSemester.setString(1, semester);
 			updateSemester.setInt(2, id);
 			updateSemester.executeUpdate();
-			
-		} catch (SQLException sqlException) {
+		}
+		catch (SQLException sqlException) {
 			sqlException.printStackTrace();
 		}
 	}
 	/*
-	 * This method will execute the selectByStatus query
+	 * This method will execute the selectByStatus query that selects courses from the db by status and returns the resultSet
 	 */
-	
 	protected ResultSet selectByStatus(boolean status) {
 		ResultSet resultSet = null;
 		try {
@@ -163,14 +158,17 @@ public class CourseQueries {
 		}
 		return resultSet;
 	}
-	public ArrayList<Course> getByStatus(boolean status){
-		
+	/*
+	 * This method takes boolean as an input and executes the selectByStatus query.
+	 * It returns an ArrayList containing Course objects initialized with Course data from each row in the courses table (database)
+	 */
+	public ArrayList<Course> getAllByStatus(boolean status){
 		ArrayList<Course> results = null;
 		ResultSet resultSet = null;
 		
 		try
 		{
-			resultSet = selectByStatus(status); // Here we  execute the selectAllCourses query. resultSet contains the rows returned by the query
+			resultSet = selectByStatus(status); //Execute the selectByStatus query. resultSet contains the rows returned by the query
 			results = new ArrayList<Course>();
 		
 			while(resultSet.next()) // for each row returned by the select query...
@@ -199,8 +197,10 @@ public class CourseQueries {
 			}
 		} // end finally
 		return results;
-	} // end method getAllCourses
-	
+	} // end method getAllByStatus
+	/*
+	 * This method will execute the selectBySemester query that selects courses from the db by planned semester and returns the resultSet
+	 */
 	protected ResultSet selectBySemester(String semester) {
 		ResultSet resultSet = null;
 		try {
@@ -211,15 +211,17 @@ public class CourseQueries {
 		}
 		return resultSet;
 	}
-	
-	public ArrayList<Course> getBySemester(String semester){
-		
+	/*
+	 * This method takes String as an input and executes the selectBySemester query.
+	 * It returns an ArrayList containing Course objects initialized with Course data from each row in the courses table (database)
+	 */
+	public ArrayList<Course> getAllBySemester(String semester){
 		ArrayList<Course> results = null;
 		ResultSet resultSet = null;
 		
 		try
 		{
-			resultSet = selectBySemester(semester); // Here we  execute the selectAllCourses query. resultSet contains the rows returned by the query
+			resultSet = selectBySemester(semester); //Execute the selectBySemester query. resultSet contains the rows returned by the query
 			results = new ArrayList<Course>();
 		
 			while(resultSet.next()) // for each row returned by the select query...
@@ -248,26 +250,31 @@ public class CourseQueries {
 			}
 		} // end finally
 		return results;
-	} // end method getAllCourses
-	
+	} // end method getAllBySemester
+	/*
+	 * This method will execute the selectByName query that selects courses from the db by name and returns the resultSet
+	 */
 	protected ResultSet selectByName(String name) {
 		ResultSet resultSet = null;
 		try {
-			selectByName.setString(1,"%"+name+"%");
+			selectByName.setString(1,"%"+name+"%");//search will be based on part of the name
 			resultSet = selectByName.executeQuery();
 		} catch (SQLException sqlException) {
 			sqlException.printStackTrace();
 		}
 		return resultSet;
 	}
-	public ArrayList<Course> getByName(String name){
-		
+	/*
+	 * This method takes String as an input and executes the selectByName query.
+	 * It returns an ArrayList containing Course objects initialized with Course data from each row in the courses table (database)
+	 */
+	public ArrayList<Course> getAllByName(String name){
 		ArrayList<Course> results = null;
 		ResultSet resultSet = null;
 		
 		try
 		{
-			resultSet = selectByName(name); // Here we  execute the selectAllCourses query. resultSet contains the rows returned by the query
+			resultSet = selectByName(name); //Execute the selectAllCourses query. resultSet contains the rows returned by the query
 			results = new ArrayList<Course>();
 		
 			while(resultSet.next()) // for each row returned by the select query...
@@ -296,7 +303,7 @@ public class CourseQueries {
 			}
 		} // end finally
 		return results;
-	} // end method getAllCourses
+	} // end method getAllByName
 }
 
 
