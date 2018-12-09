@@ -125,7 +125,7 @@ public class StudyPlan extends JFrame {
 		btnPrint.setBounds(10, 397, 247, 43);
 		getContentPane().add(btnPrint);
 		
-		//combobox to choose completion and show in the teble
+		//combobox to choose completion and show in the table
 		JComboBox comboBoxCompletion = new JComboBox();
 		comboBoxCompletion.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
@@ -145,20 +145,35 @@ public class StudyPlan extends JFrame {
 			}
 		});
 		comboBoxCompletion.setModel(new DefaultComboBoxModel(new String[] {"All", "completed", "not completed"}));
-		comboBoxCompletion.setBounds(401, 107, 138, 26);
+		comboBoxCompletion.setBounds(395, 107, 138, 26);
 		getContentPane().add(comboBoxCompletion);
 		
 		JLabel lblSelect = new JLabel("Filter by status");
-		lblSelect.setBounds(304, 107, 90, 26);
+		lblSelect.setBounds(295, 107, 90, 26);
 		getContentPane().add(lblSelect);
-		//combobox to choose planned semester and show in the teble
+		
+		//combobox to choose courses by planned semester and show them the table
 		JComboBox comboBoxSemesterPlanned = new JComboBox();
+		comboBoxSemesterPlanned.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+			
+				if(e.getStateChange() == ItemEvent.SELECTED) {
+					
+					if (e.getItem().equals("All")) {
+						populateTable();
+					}
+					else {
+						populateTableSemester((String)e.getItem());
+					}
+                }
+			}
+		});
 		comboBoxSemesterPlanned.setModel(new DefaultComboBoxModel(new String[] {"All", "Autumn 2018", "Spring 2019", "Summer 2019", "Autumn 2019", "Spring 2020", "Summer 2020"}));
-		comboBoxSemesterPlanned.setBounds(661, 107, 138, 26);
+		comboBoxSemesterPlanned.setBounds(671, 107, 138, 26);
 		getContentPane().add(comboBoxSemesterPlanned);
 		
 		JLabel lblShow = new JLabel("Filter by semester");
-		lblShow.setBounds(552, 107, 99, 26);
+		lblShow.setBounds(552, 107, 109, 26);
 		getContentPane().add(lblShow);
 		
 		textField = new JTextField();
@@ -166,7 +181,7 @@ public class StudyPlan extends JFrame {
 		getContentPane().add(textField);
 		textField.setColumns(10);
 		
-		JButton btnSearchByName = new JButton("Filter by name");
+		JButton btnSearchByName = new JButton("Search by name");
 		btnSearchByName.setBounds(147, 107, 128, 26);
 		getContentPane().add(btnSearchByName);
 		
@@ -258,6 +273,21 @@ public class StudyPlan extends JFrame {
 	public static void populateTableStatus(boolean status) {
 		Course currentCourse;
 		allCourses= CourseQueries.getByStatus(status);
+		tableModel.setRowCount(allCourses.size());
+		
+		for (int row=0; row<allCourses.size(); row++){ //allCourses.size() returns the amount of items in the allCourses list
+			currentCourse = allCourses.get(row); // get an course from the ArrayList allCourses
+			
+			tableCourses.getModel().setValueAt(currentCourse.getID(), row, ID_COL);
+			tableCourses.getModel().setValueAt(currentCourse.getName(), row, NAME_COL);
+			tableCourses.getModel().setValueAt(currentCourse.getStatus(), row, STATUS_COL);
+			tableCourses.getModel().setValueAt(currentCourse.getStatusString(), row, STATUS_STRING_COL);
+			tableCourses.getModel().setValueAt(currentCourse.getSemester(), row, SEMESTER_COL);
+		}
+	}
+	public static void populateTableSemester(String status) {
+		Course currentCourse;
+		allCourses= CourseQueries.getBySemester(status);
 		tableModel.setRowCount(allCourses.size());
 		
 		for (int row=0; row<allCourses.size(); row++){ //allCourses.size() returns the amount of items in the allCourses list
