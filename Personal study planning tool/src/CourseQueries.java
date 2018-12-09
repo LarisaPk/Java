@@ -249,6 +249,54 @@ public class CourseQueries {
 		} // end finally
 		return results;
 	} // end method getAllCourses
+	
+	protected ResultSet selectByName(String name) {
+		ResultSet resultSet = null;
+		try {
+			selectByName.setString(1,"%"+name+"%");
+			resultSet = selectByName.executeQuery();
+		} catch (SQLException sqlException) {
+			sqlException.printStackTrace();
+		}
+		return resultSet;
+	}
+	public ArrayList<Course> getByName(String name){
+		
+		ArrayList<Course> results = null;
+		ResultSet resultSet = null;
+		
+		try
+		{
+			resultSet = selectByName(name); // Here we  execute the selectAllCourses query. resultSet contains the rows returned by the query
+			results = new ArrayList<Course>();
+		
+			while(resultSet.next()) // for each row returned by the select query...
+			{
+				// Initialize a new Course object with the row's data. Add the Course object to the results ArrayList
+				results.add(new Course(
+					resultSet.getInt("CourseID"), // get the value associated to the CourseID column
+					resultSet.getString("Name"), // get the value associated to the Name column
+					resultSet.getBoolean("Status"), // get the value associated to the Status column
+					resultSet.getString("Semester"))); // get the value associated to the Semester column
+			}
+		} // end try
+		catch (SQLException sqlException)
+		{
+			sqlException.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				resultSet.close();
+			}
+			catch (SQLException sqlException)
+			{
+				sqlException.printStackTrace();
+			}
+		} // end finally
+		return results;
+	} // end method getAllCourses
 }
 
 

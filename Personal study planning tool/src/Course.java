@@ -1,10 +1,8 @@
-
 public class Course {
 	private int id;
 	private String name;
 	private boolean status;
 	private String semester;
-	
 
 	//Constructor for Course
 	public Course(int id, String name, boolean status, String semester) {

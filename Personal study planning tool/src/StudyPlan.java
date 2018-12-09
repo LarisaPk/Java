@@ -36,7 +36,6 @@ public class StudyPlan extends JFrame {
 	//Private variables
 	private static CourseQueries CourseQueries; //instance of the CourseQueries class
 	private static ArrayList<Course> allCourses;  //array to store all courses
-	//private JTextField txtSearchField;
 	static JTable tableCourses;
 	static DefaultTableModel tableModel;
 	
@@ -181,7 +180,13 @@ public class StudyPlan extends JFrame {
 		getContentPane().add(textField);
 		textField.setColumns(10);
 		
+		//button for searching courses in the database
 		JButton btnSearchByName = new JButton("Search by name");
+		btnSearchByName.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				populateTableName(textField.getText()); //Search button clicked -> search courses in the database
+			}
+		});
 		btnSearchByName.setBounds(147, 107, 128, 26);
 		getContentPane().add(btnSearchByName);
 		
@@ -288,6 +293,21 @@ public class StudyPlan extends JFrame {
 	public static void populateTableSemester(String status) {
 		Course currentCourse;
 		allCourses= CourseQueries.getBySemester(status);
+		tableModel.setRowCount(allCourses.size());
+		
+		for (int row=0; row<allCourses.size(); row++){ //allCourses.size() returns the amount of items in the allCourses list
+			currentCourse = allCourses.get(row); // get an course from the ArrayList allCourses
+			
+			tableCourses.getModel().setValueAt(currentCourse.getID(), row, ID_COL);
+			tableCourses.getModel().setValueAt(currentCourse.getName(), row, NAME_COL);
+			tableCourses.getModel().setValueAt(currentCourse.getStatus(), row, STATUS_COL);
+			tableCourses.getModel().setValueAt(currentCourse.getStatusString(), row, STATUS_STRING_COL);
+			tableCourses.getModel().setValueAt(currentCourse.getSemester(), row, SEMESTER_COL);
+		}
+	}
+	public static void populateTableName(String name) {
+		Course currentCourse;
+		allCourses= CourseQueries.getByName(name);
 		tableModel.setRowCount(allCourses.size());
 		
 		for (int row=0; row<allCourses.size(); row++){ //allCourses.size() returns the amount of items in the allCourses list
