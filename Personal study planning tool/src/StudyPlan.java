@@ -31,6 +31,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JToggleButton;
 import javax.swing.JCheckBox;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.Font;
 
 public class StudyPlan extends JFrame {
 	//Private variables
@@ -105,6 +106,7 @@ public class StudyPlan extends JFrame {
 		tableCourses.setModel(tableModel);
 		
 		JLabel lblToUpdate = new JLabel("* To change Planned Semester click on it, choose a new one from the dropdown menu and press OK");
+		lblToUpdate.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblToUpdate.setBounds(10, 361, 616, 26);
 		getContentPane().add(lblToUpdate);
 		
@@ -185,14 +187,25 @@ public class StudyPlan extends JFrame {
 		btnSearchByName.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				populateTableName(textField.getText()); //Search button clicked -> search courses in the database
+				textField.setText("");
 			}
 		});
 		btnSearchByName.setBounds(147, 107, 128, 26);
 		getContentPane().add(btnSearchByName);
 		
 		JLabel lblOnluOneFilter = new JLabel("* Only one filter can be used at the same time");
+		lblOnluOneFilter.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblOnluOneFilter.setBounds(10, 78, 529, 18);
 		getContentPane().add(lblOnluOneFilter);
+		
+		JButton btnShowAll = new JButton("Show all");
+		btnShowAll.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				populateTable();
+			}
+		});
+		btnShowAll.setBounds(295, 25, 244, 43);
+		getContentPane().add(btnShowAll);
 		
 		//if user clicks on table cell in the "Planned Semester" column new panel will show up for updating the semester
 		tableCourses.addMouseListener(new java.awt.event.MouseAdapter() {
