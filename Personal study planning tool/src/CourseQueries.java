@@ -52,8 +52,7 @@ public class CourseQueries {
 			// Setting the values for the question marks '?' in the prepared statement
 			addCourse.setString(1, name);
 			addCourse.setString(2, semester);
-			// result will contain the amount of updated rows.
-			int result = addCourse.executeUpdate(); 
+			addCourse.executeUpdate(); 
 		}
 		catch (SQLException sqlException)
 		{
@@ -68,8 +67,7 @@ public class CourseQueries {
 		{
 			// Setting the value for the question mark '?' in the prepared statement
 			removeCourse.setInt(1, id);
-			// result will contain the amount of updated rows.
-			int result = removeCourse.executeUpdate(); 
+			removeCourse.executeUpdate(); 
 		}
 		catch (SQLException sqlException)
 		{
