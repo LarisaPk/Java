@@ -22,7 +22,7 @@ The tool includes the following functionality:
 3. Updating the planned semester for a given course - click on the cell of the semester you wish to change and choose the new one from the pop up panel dropdown menu and press "OK"
 4. Removing a course - click on the row and press "Remove selected" button
 5. Printing out courses based on: 
-* a. name of the course - incert the name of the course to the search field, press "Search by name" button and then "Print" button, choose printing options and press "OK"
-* b. the planned semester - pick the semester from the dropdown menu and press "Print" button...
-* c. the status (completed/not completed) of the course - pick the status from the dropdown menu and press "Print" button
+* name of the course - incert the name of the course to the search field, press "Search by name" button and then "Print" button, choose printing options and press "OK"
+* the planned semester - pick the semester from the dropdown menu and press "Print" button...
+* the status (completed/not completed) of the course - pick the status from the dropdown menu and press "Print" button
 6. By pressing "Show all" button you can see all the courses planned
