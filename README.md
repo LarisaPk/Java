@@ -10,7 +10,7 @@ The project has been made for the Object-Oriented Programming with Java course f
 database, and its password. 
 - create a java project in your IDE and configure the project so it can use the jdbc driver
 - download the source code and add it to the project
-- configure the CourseQueries.java file so it will connect to your database on your selected MySQL server. Changes need to be made in  lines  11,12,13
+- configure the CourseQueries.java file so it will connect to your database on your selected MySQL server. Changes need to be made in the lines  11,12,13
 - via your SQL Client, connect to your database and run the sql script to create the database table (file name is courses.sql)                 
 ## Usage
 The purpose of this tool is to create a study plan and save it into a database. With the tool you can
