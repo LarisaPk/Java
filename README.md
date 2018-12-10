@@ -19,7 +19,7 @@ in a given semester.
 The tool includes the following functionality:
 1. Adding a course - press "Add a course" button, insert the information to the field and press "OK"
 2. Marking the course completed - click on the row and press "Mark selected as completed/not completed" button
-3. Updating the planned semester for a given course - click on the cell of the semester you wish to change and cshoose the new one from the pop up panel dropdown menu and press "OK"
+3. Updating the planned semester for a given course - click on the cell of the semester you wish to change and choose the new one from the pop up panel dropdown menu and press "OK"
 4. Removing a course - click on the row and press "Remove selected" button
 5. Printing out courses based on: 
 * a. name of the course - incert the name of the course to the search field, press "Search by name" button and then "Print" button, choose printing options and press "OK"
