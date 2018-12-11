@@ -26,3 +26,7 @@ The tool includes the following functionality:
 * the planned semester - pick the semester from the dropdown menu and press "Print" button...
 * the status (completed/not completed) of the course - pick the status from the dropdown menu and press "Print" button
 6. By pressing "Show all" button you can see all the courses planned
+
+## Screenshots
+Screenshots can be found in Wiki
+https://github.com/LarisaPk/Java-Personal-study-planning-tool/wiki/Screenshots-of-the-UI
