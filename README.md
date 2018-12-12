@@ -25,7 +25,7 @@ The tool includes the following functionality:
 * name of the course - insert the name of the course into the search field, press "Search by name" button and then "Print" button, choose printing option and press "OK"
 * the planned semester - pick the semester from the dropdown menu and press "Print" button...
 * the status (completed/not completed) of the course - pick the status from the dropdown menu and press "Print" button
-6. By pressing "Show all" button you can see all the courses planned
+6. "Show all" button will let you see all the courses planned
 
 ## Screenshots
 Screenshots can be found in Wiki
